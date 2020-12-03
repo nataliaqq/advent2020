@@ -1,6 +1,6 @@
-const input = day3input.split('\n')
-
 const day3 = () => {
+    const input = day3input.split('\n')
+
     const countTrees = (params) => {
         let inputMap = []
         const h = input.length
