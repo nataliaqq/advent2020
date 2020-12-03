@@ -1,7 +1,7 @@
 const input = day3input.split('\n')
 
 const day3 = () => {
-    const part1 = () => {
+    const countTrees = (params) => {
         let inputMap = []
         const h = input.length
         const w = input[0].length
@@ -18,26 +18,37 @@ const day3 = () => {
             }
         }
 
-        const right = 3 
-        const down = 1
-
         const start = { x: 0, y: 0 }
 
         let count = 0
         let currentCoord = start
         for (let i = 0; i < input.length; i++) {
-            const curerntElement = inputMap.find(elem => elem.x === currentCoord.x % w && elem.y === currentCoord.y).element
-            if (curerntElement === '#') {
+            const curerntElement = inputMap.find(elem => elem.x === currentCoord.x % w && elem.y === currentCoord.y)?.element
+            if (curerntElement && curerntElement === '#') {
                 count++
             }
-            currentCoord.x = currentCoord.x + right
-            currentCoord.y = currentCoord.y + down
+            currentCoord.x = currentCoord.x + params.right
+            currentCoord.y = currentCoord.y + params.down
         }
+        return count
+    }
 
-        console.log('day3_1: ', count)
+    const part1 = ()  => {
+        const a = countTrees({ right: 3, down: 1 })
+        console.log('day3_1: ', a)
+    }
+
+    const part2 = () => {
+        const a = countTrees({ right: 1, down: 1})
+        const b = countTrees({ right: 3, down: 1})
+        const c = countTrees({ right: 5, down: 1})
+        const d = countTrees({ right: 7, down: 1})
+        const e = countTrees({ right: 1, down: 2})
+        console.log('day3_2: ', a* b * c * d * e)
     }
 
     part1()
+    part2()
 }
 
 day3()
