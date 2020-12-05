@@ -32,23 +32,35 @@ const day5 = () => {
         });
         const row = rowsInterval[0]
         const column = columnsInterval[0]
+        const id = row * 8 + column
         // console.log('row: ', row)
         // console.log('column: ', column)
-        return row * 8 + column
+        return id
     }
 
+    let codeArray = []
+    input.forEach(code => {
+        codeArray.push(getSeatId(code))
+    })
+
     const part1 = () => {
-        const id = getSeatId(input[2])
-        let codeArray = []
+        console.log('day5_1: ', Math.max(...codeArray))
+    }
+
+    const part2 = () => {
+        let mySeatId
         
-        input.forEach(code => {
-            codeArray.push(getSeatId(code))
+        const codeArraySorted = codeArray.sort()
+        codeArraySorted.forEach((id, index) => {
+            if (id + 1 !== codeArraySorted[index + 1] && index !== codeArraySorted.length - 1) {
+                mySeatId = id + 1
+            }
         })
-        console.log(codeArray)
-        console.log(Math.max(...codeArray))
+        console.log('day5_2: ', mySeatId)
     }
 
     part1()
+    part2()
 }
 
 day5()
