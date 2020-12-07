@@ -21,18 +21,33 @@ const day7 = () => {
         const getBagsContainColor = (color) => bags.filter(bag => bag.rules.find(item => item.color === color))
 
         let result = []
-        const recurs = (color) => getBagsContainColor(color).forEach(item => {
+        const getAllBags = (color) => getBagsContainColor(color).forEach(item => {
             if (item.color) {
                 result.push(item.color)
-                recurs(item.color)
+                getAllBags(item.color)
             }
         })
-        recurs(myBag)
+        getAllBags(myBag)
 
-        console.log([...new Set(result)])
+        console.log('day7_1: ', [...new Set(result)].length)
+    }
+
+    const part2 = () => {
+        let result = 0;
+        const numberBagsInside = (color, quantity) => {
+            const currBag = bags.find(item => item.color === color)
+            if (currBag.rules === []) return
+            currBag.rules.forEach(rule => {
+                result = result + (rule.quantity * quantity)
+                numberBagsInside(rule.color, rule.quantity * quantity)
+            })
+        }
+        numberBagsInside(myBag, 1)
+        console.log('day7_2: ', result)
     }
 
     part1()
+    part2()
 }
 
 day7()
