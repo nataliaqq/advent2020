@@ -7,14 +7,17 @@ const day8 = () => {
         }
     })
 
-    const part1 = () => {
+    
+
+    const executeProgram = (input) => {
         let acc = 0
         let executed = []
         let index = 0
-        let found = false
+        let looped = false
+        let end = false
 
-        while (found === false) {
-            const { command: cmd, value } = commands[index]
+        while (looped === false && end === false) {
+            const { command: cmd, value } = input[index]
             executed.push(index)
             
             if (cmd === 'jmp') {
@@ -27,13 +30,31 @@ const day8 = () => {
             if (cmd === 'nop') {
                 index++
             }
-            found = !!(executed.indexOf(index) > -1)
+            looped = !!(executed.indexOf(index) > -1)
+            end = !input[index]
         }
-
+        return { value: acc, endReached: end }
+    }
+    const part1 = () => {
+        const acc = executeProgram(commands).value
         console.log('day8_1: ', acc)
     }
 
+    const part2 = () => {
+        commands.forEach((command, index) => {
+            if (command.command === 'jmp' || command.command === 'nop') {
+                let newInput = [...commands]
+                let newCmd = { command: command.command === 'jmp' ? 'nop' : 'jmp', value: command.value}
+                newInput[index] = newCmd
+                const acc = executeProgram(newInput).endReached ? executeProgram(newInput).value : false
+                if (acc) console.log('day8_2: ', acc)
+
+            }
+        })
+    }
+
     part1()
+    part2()
 }
 
 day8()
